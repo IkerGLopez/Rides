@@ -1,7 +1,7 @@
 /**
  * Package with the business logic of the application.
  */
-package businessLogic;
+package businessLogic;D
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
