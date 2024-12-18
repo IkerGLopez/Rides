@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+	<h:head>
+		<title>Mis viajes</title>
+		<h:outputStylesheet library="css" name="style51.css" />
+	</h:head>
+	<h:body>
+		<h:form>
+			<h3>Mis viajes</h3>
+
+			<!-- Tabla de viajes -->
+			<h:dataTable value="#{MyRides.rides}" var="ride" border="1"
+				styleClass="rides-table" headerClass="table-header"
+				rowClasses="table-row-even,table-row-odd"
+				rendered="#{not empty MyRides.rides}">
+				<h:column>
+					<f:facet name="header">Desde</f:facet>
+					<h:outputText value="#{ride.departCity}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Hacia</f:facet>
+					<h:outputText value="#{ride.destinationCity}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Fecha</f:facet>
+					<h:outputText value="#{ride.date}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Acciones</f:facet>
+					<!-- Para conductores: Cancelar el viaje -->
+					<h:commandButton value="Cancelar viaje"
+						action="#{MyRides.cancelRide(ride)}"
+						rendered="#{MyRides.isDriver()}" styleClass="btn" />
+					<!-- Para pasajeros: Quitar reserva -->
+					<h:commandButton value="Quitar reserva"
+						action="#{MyRides.cancelRide(ride)}"
+						rendered="#{MyRides.isPassenger()}" styleClass="btn" />
+				</h:column>
+			</h:dataTable>
+
+			<h:panelGroup rendered="#{empty MyRides.rides}">
+				<!-- Mensaje cuando el usuario es pasajero -->
+				<h:outputText value="No tienes ningún viaje reservado."
+					rendered="#{MyRides.isPassenger()}" styleClass="info-message" />
+
+				<!-- Mensaje cuando el usuario es conductor -->
+				<h:outputText value="No has ofertado ningún viaje."
+					rendered="#{MyRides.isDriver()}" styleClass="info-message" />
+			</h:panelGroup>
+
+			<h:commandButton value="Cerrar" action="#{QueryRide.close}"
+				immediate="true" styleClass="close-btn" />
+		</h:form>
+	</h:body>
+</f:view>
+</html>

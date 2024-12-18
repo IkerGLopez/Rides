@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+	<h:head>
+		<title>Oferta tu viaje</title>
+		<h:outputStylesheet library="css" name="style51.css" />
+	</h:head>
+	<h:body>
+		<h:form>
+			<div class="form-container">
+				<h3>Introduce la información de tu viaje</h3>
+				<div class="form-group">
+
+					<label for="departcity">Ciudad de salida:</label>
+					<h:inputText id="departcity" value="#{CreateRide.departCity}"
+						validatorMessage="Introduce una ciudad de salida válida.">
+						<f:validateRegex pattern="^\p{L}+$" />
+					</h:inputText>
+				</div>
+				<div class="form-group">
+					<label for="destinationCity">Ciudad de destino:</label>
+					<h:inputText id="destinationCity" value="#{CreateRide.arrivalCity}"
+						validatorMessage="Introduce una ciudad de destino válida.">
+						<f:validateRegex pattern="^\p{L}+$" />
+					</h:inputText>
+				</div>
+				<div class="form-group">
+					<label for="numseats">Numero de plazas:</label>
+					<h:inputText id="numseats" value="#{CreateRide.numSeats}"
+						validatorMessage="Introduce un número de asientos entre 1 y 30">
+						<f:convertNumber integerOnly="true" />
+						<f:validateDoubleRange minimum="1" maximum="30" />
+					</h:inputText>
+				</div>
+				<div class="form-group">
+					<label for="price">Precio por plaza (€):</label>
+					<h:inputText id="price" redisplay="true"
+						value="#{CreateRide.price}"
+						validatorMessage="Introduce un precio de 1€ a 150€">
+						<f:validateDoubleRange minimum="1" maximum="150" />
+
+						<f:convertNumber type="number" />
+					</h:inputText>
+				</div>
+				<div class="form-group">
+					<label for="fecha">Fecha:</label>
+					<p:calendar id="fecha" redisplay="true" value="#{CreateRide.fecha}"
+						navigator="true" pattern="dd/MM/yyyy" mode="inline popup"
+						showOn="button" />
+				</div>
+
+				<h:messages styleClass="error-message" />
+
+				<p>
+					<h:commandButton value="Publicar oferta"
+						action="#{CreateRide.validateAndCreateRide}" styleClass="btn" />
+				</p>
+
+				<p>
+					<h:commandButton value="Cerrar" action="MainDriver.xhtml"
+						immediate="true" styleClass="close-btn" />
+				</p>
+			</div>
+		</h:form>
+	</h:body>
+</f:view>
+</html>

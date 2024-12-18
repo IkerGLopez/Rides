@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+	<h:head>
+		<title>Ver viajes disponibles</title>
+		<h:outputStylesheet library="css" name="style51.css" />
+	</h:head>
+	<h:body>
+		<h:form>
+
+			<div class="form-container">
+				<div class="form-group">
+					<label for="departcity">Ciudad de salida:</label>
+					<h:selectOneMenu id="departcity"
+						value="#{QueryRide.selectedDepartCity}">
+						<f:selectItem itemValue="" itemLabel="Seleccionar..." />
+						<f:selectItems value="#{QueryRide.departCities}" />
+						<f:ajax event="change" render="destinationcity fecha ridesTable"
+							listener="#{QueryRide.updateDestinationCities}" />
+					</h:selectOneMenu>
+				</div>
+				<div class="form-group">
+					<label for="destinationcity">Ciudad de destino:</label>
+					<h:selectOneMenu id="destinationcity"
+						value="#{QueryRide.selectedDestinationCity}"
+						disabled="#{empty QueryRide.selectedDepartCity}">
+						<f:selectItem itemValue="" itemLabel="Seleccionar..." />
+						<f:selectItems value="#{QueryRide.destinationCities}" />
+						<f:ajax event="change" render="fecha ridesTable"
+							listener="#{QueryRide.updateAvailableDates}" />
+					</h:selectOneMenu>
+				</div>
+				<div class="form-group">
+					<label for="fecha">Selecciona una fecha:</label>
+					<p:calendar id="fecha" value="#{QueryRide.selectedDate}"
+						navigator="true" pattern="dd/MM/yyyy" mode="inline popup"
+						highlightedDates="#{QueryRide.availableDates}">
+						<f:ajax event="dateSelect" listener="#{QueryRide.obtainRides}"
+							render="fecha ridesTable" />
+					</p:calendar>
+				</div>
+				<h:dataTable id="ridesTable" value="#{QueryRide.rides}" var="ride"
+					styleClass="rides-table" headerClass="table-header"
+					rowClasses="table-row-even,table-row-odd"
+					rowStyleClass="#{QueryRide.isRideBooked(ride) ? 'reserved-row' : ''}">
+					<h:column>
+						<f:facet name="header">Conductor</f:facet>
+						<h:outputText value="#{ride.driver.username}"
+							target="#{QueryRide.selectedDriverName}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Asientos</f:facet>
+						<h:outputText value="#{ride.numPlaces}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Precio</f:facet>
+						<h:outputText value="#{ride.price}" />
+					</h:column>
+					<h:column rendered="#{QueryRide.passenger}">
+						<f:facet name="header">Reservar viaje</f:facet>
+						<h:commandButton value="Reservar" action="#{QueryRide.book}"
+							disabled="#{QueryRide.isRideBookedForSelectedDate()}"
+							styleClass="#{QueryRide.isRideBookedForSelectedDate() ? 'reserved-btn' : 'btn'}">
+							<f:setPropertyActionListener target="#{QueryRide.selectedRide}"
+								value="#{ride}" />
+						</h:commandButton>
+					</h:column>
+				</h:dataTable>
+				<h:panelGroup rendered="#{QueryRide.isRideBookedForSelectedDate()}">
+					<h:outputText
+						value="Solo puedes reservar un viaje por día. Puedes consultar tus viajes en "
+						styleClass="info-message" />
+					<h:outputLink
+						value="#{facesContext.externalContext.requestContextPath}/MyRides.xhtml"> Mis Viajes</h:outputLink>
+					<h:outputText value="." />
+				</h:panelGroup>
+				<h:commandButton value="Cerrar" action="#{QueryRide.close}"
+					immediate="true" styleClass="close-btn" />
+			</div>
+		</h:form>
+	</h:body>
+</f:view>
+</html>

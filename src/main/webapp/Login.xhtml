@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+	<h:head>
+		<title>Inicia sesión</title>
+		<h:outputStylesheet library="css" name="style51.css" />
+	</h:head>
+	<h:body>
+		<h:form>
+			<table>
+				<tr>
+					<td>Nombre de usuario:</td>
+					<td><h:inputText id="usernameInput" value="#{Login.username}"
+							required="true" requiredMessage="Introduce tu nombre de usuario"></h:inputText></td>
+				</tr>
+				<tr>
+					<td>Contraseña:</td>
+					<td><h:inputSecret id="passInput" value="#{Login.password}"
+							required="true" requiredMessage="Introduce tu contraseña"></h:inputSecret></td>
+				</tr>
+			</table>
+			<p>
+				<h:commandButton value="Iniciar sesión" action="#{Login.makeLogin}"
+					styleClass="btn" />
+			</p>
+			<p>
+				¿No tienes una cuenta?
+				<h:link value="Regístrate aquí" outcome="Register.xhtml" />
+			</p>
+			<h:messages styleClass="error-message"></h:messages>
+		</h:form>
+		<div class="center-logo">
+			<h:graphicImage library="images" name="logo.png" alt="Logo"
+				style="width: 30%; height: 30%;" />
+		</div>
+	</h:body>
+</f:view>
+</html>

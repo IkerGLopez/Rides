@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+	<h:head>
+		<title>Registrate</title>
+		<h:outputStylesheet library="css" name="style51.css" />
+	</h:head>
+	<h:body>
+		<h:form>
+			<h3>Por favor, introduce tus datos</h3>
+			<table>
+				<tr>
+					<td>Nombre de usuario:</td>
+					<td><h:inputText id="usernameInput"
+							value="#{Register.username}" required="true"
+							requiredMessage="Introduce tu nombre de usuario"
+                    validatorMessage="El usuario solo puede contener letras y números">
+    <f:validateRegex pattern="^[a-zA-Z][a-zA-Z0-9]*$" />
+						</h:inputText></td>
+				</tr>
+				<tr>
+					<td>Contraseña:</td>
+					<td><h:inputSecret id="passInput" value="#{Register.password}"
+							required="true" requiredMessage="Introduce una contraseña"></h:inputSecret></td>
+				</tr>
+				<tr>
+					<td>Confirme su contraseña:</td>
+					<td><h:inputSecret id="passConfInput"
+							value="#{Register.passwordConfirmation}" required="true"
+							requiredMessage="Debes confirmar tu contraseña"></h:inputSecret></td>
+				</tr>
+				<tr>
+					<td>Correo electrónico:</td>
+					<td><h:inputText id="emailInput" value="#{Register.email}"
+							required="true" requiredMessage="Introduce un correo electrónico"
+							validatorMessage="Introduce un correo electrónico válido.">
+							<f:validateRegex
+								pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$" />
+						</h:inputText></td>
+				</tr>
+				<tr>
+					<td>Tipo de perfil:</td>
+					<td><h:selectOneRadio id="role" value="#{Register.role}"
+							required="true" requiredMessage="Debes seleccionar un rol">
+							<f:selectItem itemValue="driver" itemLabel="Driver" />
+							<f:selectItem itemValue="passenger" itemLabel="Passenger" />
+						</h:selectOneRadio></td>
+				</tr>
+			</table>
+			<p>
+				<h:commandButton value="Registrarse"
+					action="#{Register.makeRegister}" styleClass="btn"/>
+			</p>
+			<p>
+				<h:commandButton value="Cerrar" action="Login.xhtml"
+					immediate="true" styleClass="close-btn"/>
+			</p>
+			<h:messages styleClass="error-message"></h:messages>
+		</h:form>
+	</h:body>
+</f:view>
+</html>
